@@ -1,0 +1,2135 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tanya N — Software Engineer</title>
+  <meta name="description" content="Personal portfolio of Tanya N — CSE undergrad building full-stack web apps, practical AI tools, and real-world software." />
+
+  <!-- Minimalist Cyan Cat Silhouette Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a192f'/%3E%3Cpath d='M20 26 L18 12 L28 20 Q32 19 36 20 L46 12 L44 26 Q48 33 44 41 Q41 48 32 48 Q23 48 20 41 Q16 33 20 26 Z' fill='%2364ffda' fill-opacity='0.2' stroke='%2364ffda' stroke-width='2.4' stroke-linejoin='round'/%3E%3Ccircle cx='26' cy='31' r='2.2' fill='%2364ffda'/%3E%3Ccircle cx='38' cy='31' r='2.2' fill='%2364ffda'/%3E%3Cpath d='M29 37 Q32 39.5 35 37' fill='none' stroke='%2364ffda' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E" />
+
+  <!-- Google Fonts: Nunito (Primary — matching gazijarin.com) & JetBrains Mono (ASCII, Tags, Dates, HUD) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: '#0a192f',
+            navyLight: '#112240',
+            navyLighter: '#233554',
+            cyanAccent: '#64ffda',
+            slateLight: '#ccd6f6',
+            slateMuted: '#8892b0',
+            coralDanger: '#ff6b6b',
+          },
+          fontFamily: {
+            display: ['"Nunito"', 'sans-serif'],
+            sans: ['"Nunito"', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    :root {
+      --navy: #0a192f;
+      --navy-light: #112240;
+      --navy-lighter: #233554;
+      --cyan: #64ffda;
+      --slate-light: #ccd6f6;
+      --slate-muted: #8892b0;
+    }
+
+    html {
+      background-color: var(--navy);
+      color: var(--slate-light);
+    }
+
+    body {
+      background-color: var(--navy);
+      color: var(--slate-light);
+      font-family: 'Nunito', system-ui, -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    /* Hero 2-column split layout (ASCII Cat strictly on the left on tablet/desktop) */
+    .hero-split {
+      display: grid;
+      grid-template-columns: 1fr;
+      align-items: center;
+      gap: 2.25rem;
+    }
+    @media (min-width: 768px) {
+      .hero-split {
+        grid-template-columns: minmax(260px, 340px) 1fr;
+        gap: 3.5rem;
+      }
+    }
+
+    /* Section headings matching gazijarin.com (lowercase bold Nunito, '/' in #ccd6f6) */
+    .section-heading {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: clamp(2rem, 4vw, 2.65rem);
+      color: #ccd6f6;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+
+    /* Staggered slide-in animation & right-slide hover for technologies list */
+    .skill-item {
+      opacity: 0;
+      transform: translateX(-32px);
+      transition:
+        opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1) var(--delay, 0ms),
+        transform 0.55s cubic-bezier(0.22, 1, 0.36, 1) var(--delay, 0ms),
+        color 0.2s ease;
+    }
+    .skill-item.skill-visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .skill-item.skill-visible:hover {
+      transform: translateX(6px);
+      color: #64ffda;
+      transition-delay: 0ms !important;
+    }
+    .skill-item.skill-visible:hover .skill-arrow {
+      transform: translateX(2px);
+    }
+    .skill-arrow {
+      display: inline-block;
+      transition: transform 0.2s ease;
+    }
+
+    /* Custom subtle navy scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0a192f;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #233554;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #334c75;
+    }
+
+    /* Blinking typewriter cursor */
+    @keyframes blinkCursor {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+    .cursor-blink {
+      animation: blinkCursor 1.05s step-end infinite;
+    }
+
+    /* Scroll-reveal utility */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1), transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Classic offset cyan frame for portrait card */
+    .portrait-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+    .portrait-border {
+      position: absolute;
+      inset: 0;
+      border: 2px solid var(--cyan);
+      border-radius: 0.75rem;
+      transform: translate(14px, 14px);
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+      z-index: 0;
+    }
+    .portrait-card {
+      position: relative;
+      z-index: 1;
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .portrait-wrapper:hover .portrait-border {
+      transform: translate(9px, 9px);
+    }
+    .portrait-wrapper:hover .portrait-card {
+      transform: translate(-3px, -3px);
+    }
+
+    /* Project card classic -6px lift */
+    .project-card {
+      background-color: var(--navy-light);
+      border: 1px solid rgba(100, 255, 218, 0.06);
+      transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .project-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(100, 255, 218, 0.25);
+      box-shadow: 0 18px 34px -15px rgba(2, 12, 27, 0.85);
+    }
+
+    /* Experience tab panel fade transition */
+    @keyframes tabFadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .tab-panel-animate {
+      animation: tabFadeIn 0.28s ease forwards;
+    }
+
+    /* Carousel slide transition */
+    .carousel-slide {
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+
+    /* Nav active link color */
+    .nav-link.active {
+      color: var(--cyan);
+    }
+
+    /* Hero-scoped laser pointer cursor (only on mouse/fine-pointer devices) */
+    @media (hover: hover) and (pointer: fine) {
+      #home {
+        cursor: none;
+      }
+      #home a,
+      #home button {
+        cursor: pointer;
+      }
+    }
+
+    #hero-laser-dot {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 10px;
+      height: 10px;
+      border-radius: 9999px;
+      background: #ff6b6b;
+      box-shadow:
+        0 0 6px 2px rgba(255, 107, 107, 0.95),
+        0 0 18px 6px rgba(255, 107, 107, 0.45),
+        0 0 32px 10px rgba(255, 107, 107, 0.18);
+      pointer-events: none;
+      z-index: 45;
+      opacity: 0;
+      transform: translate3d(-100px, -100px, 0) translate(-50%, -50%) scale(0.75);
+      transition: opacity 0.18s ease, transform 0.08s ease-out;
+      will-change: transform, opacity;
+    }
+
+    #hero-laser-dot.active {
+      opacity: 1;
+    }
+
+    #hero-laser-dot::after {
+      content: '';
+      position: absolute;
+      inset: 2px;
+      border-radius: 9999px;
+      background: #fff5f5;
+    }
+  </style>
+</head>
+<body class="bg-navy text-slateLight selection:bg-cyanAccent/20 selection:text-cyanAccent">
+
+  <!-- ===================================================================== -->
+  <!-- 1. FIXED MINIMALIST NAVBAR                                            -->
+  <!-- ===================================================================== -->
+  <header class="fixed top-0 left-0 right-0 z-40 bg-navy/85 backdrop-blur-md border-b border-navyLighter/50 transition-shadow duration-300" id="navbar">
+    <div class="max-w-5xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between gap-4">
+      <!-- Left: Brand + Smooth-Scroll Links -->
+      <div class="flex items-center gap-8">
+        <a href="#home" class="font-display font-bold text-base sm:text-lg tracking-tight text-slateLight hover:text-cyanAccent transition-colors">
+          Tanya N
+        </a>
+
+        <nav aria-label="Primary Navigation" class="hidden md:flex items-center gap-6 text-sm font-medium text-slateMuted">
+          <a href="#home" class="nav-link hover:text-cyanAccent transition-colors" data-section="home">Home</a>
+          <a href="#about" class="nav-link hover:text-cyanAccent transition-colors" data-section="about">About</a>
+          <a href="#experience" class="nav-link hover:text-cyanAccent transition-colors" data-section="experience">Experience</a>
+          <a href="#software" class="nav-link hover:text-cyanAccent transition-colors" data-section="software">Software</a>
+        </nav>
+      </div>
+
+      <!-- Right: Social Icons + Game Mode Button -->
+      <div class="flex items-center gap-3 sm:gap-4">
+        <div class="hidden sm:flex items-center gap-3.5 text-slateMuted">
+          <!-- Email -->
+          <a
+            href="mailto:tanyanagaraj146@gmail.com"
+            aria-label="Email Tanya N"
+            title="Email"
+            class="hover:text-cyanAccent hover:-translate-y-0.5 transition-all p-1"
+          >
+            <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+          </a>
+
+          <!-- GitHub -->
+          <a
+            href="https://github.com/Tanya-Nagaraj"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub"
+            title="GitHub"
+            class="hover:text-cyanAccent hover:-translate-y-0.5 transition-all p-1"
+          >
+            <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22" />
+            </svg>
+          </a>
+
+          <!-- LinkedIn -->
+          <a
+            href="https://www.linkedin.com/in/tanya-n-4748a2382/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn"
+            title="LinkedIn"
+            class="hover:text-cyanAccent hover:-translate-y-0.5 transition-all p-1"
+          >
+            <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z" />
+              <circle cx="4" cy="4" r="2" stroke="none" fill="currentColor" />
+            </svg>
+          </a>
+        </div>
+
+        <!-- Distinctive Outlined "game mode" Pill Button -->
+        <button
+          id="open-game-btn"
+          type="button"
+          class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-cyanAccent/70 text-cyanAccent font-mono text-xs font-medium hover:bg-cyanAccent/10 hover:border-cyanAccent transition-all cursor-pointer"
+        >
+          <!-- Tiny Gamepad Icon -->
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 11h4m-2-2v4m7-2h.01M18 13h.01M7.5 6h9A4.5 4.5 0 0121 10.5v2.25a4.25 4.25 0 01-4.25 4.25c-1.45 0-2.6-.72-3.35-1.5h-2.8c-.75.78-1.9 1.5-3.35 1.5A4.25 4.25 0 013 12.75V10.5A4.5 4.5 0 017.5 6z" />
+          </svg>
+          <span>game mode</span>
+        </button>
+
+        <!-- Mobile Menu Button -->
+        <button
+          id="mobile-menu-btn"
+          type="button"
+          aria-label="Toggle Menu"
+          class="md:hidden p-2 rounded-lg text-slateMuted hover:text-cyanAccent transition-colors"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-menu" class="hidden md:hidden bg-navyLight/95 backdrop-blur-md border-b border-navyLighter px-6 py-4 space-y-3">
+      <a href="#home" class="mobile-link block py-1.5 text-sm font-medium text-slateLight hover:text-cyanAccent">Home</a>
+      <a href="#about" class="mobile-link block py-1.5 text-sm font-medium text-slateLight hover:text-cyanAccent">About</a>
+      <a href="#experience" class="mobile-link block py-1.5 text-sm font-medium text-slateLight hover:text-cyanAccent">Experience</a>
+      <a href="#software" class="mobile-link block py-1.5 text-sm font-medium text-slateLight hover:text-cyanAccent">Software</a>
+      <div class="pt-3 border-t border-navyLighter flex items-center gap-5 text-slateMuted">
+        <a href="mailto:tanyanagaraj146@gmail.com" class="text-xs font-mono hover:text-cyanAccent">Email</a>
+        <a href="https://github.com/Tanya-Nagaraj" target="_blank" rel="noopener noreferrer" class="text-xs font-mono hover:text-cyanAccent">GitHub ↗</a>
+        <a href="https://www.linkedin.com/in/tanya-n-4748a2382/" target="_blank" rel="noopener noreferrer" class="text-xs font-mono hover:text-cyanAccent">LinkedIn ↗</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-5 sm:px-8">
+
+    <!-- =================================================================== -->
+    <!-- 2. HERO SECTION (Side-by-Side Split: ASCII Cat Left + Headline)     -->
+    <!-- =================================================================== -->
+    <section id="home" class="min-h-screen pt-24 pb-16 flex items-center scroll-mt-16 relative">
+      <!-- Glowing Coral-Red Laser Pointer Dot (active inside hero section) -->
+      <div id="hero-laser-dot" aria-hidden="true"></div>
+
+      <div class="w-full hero-split">
+        <!-- Left Column: Interactive Halftone-Dot Cyan ASCII Cat -->
+        <div class="flex items-center justify-center md:justify-start">
+          <div id="cat-container" class="w-full max-w-[340px] h-[300px] sm:h-[340px] relative flex items-center justify-center select-none">
+            <canvas id="cat-canvas" class="w-full h-full block" aria-label="Animated cyan ASCII cat tracking laser pointer"></canvas>
+          </div>
+        </div>
+
+        <!-- Right Column: Typewriter Headline (Nunito), Bio & CTA -->
+        <div class="text-center md:text-left">
+          <h1
+            class="font-display tracking-tight leading-tight min-h-[1.22em]"
+            style="font-size: clamp(2.8rem, 5.5vw, 4.4rem);"
+          >
+            <span id="typewriter-prefix" class="font-normal text-slateLight"></span><span id="typewriter-name" class="font-bold text-cyanAccent"></span><span id="typewriter-suffix" class="font-normal text-slateLight"></span><span class="text-cyanAccent font-light cursor-blink ml-0.5">|</span>
+          </h1>
+
+          <p class="mt-5 text-base sm:text-[1.125rem] font-normal text-slateMuted leading-relaxed max-w-[540px] mx-auto md:mx-0">
+            CSE undergrad building full-stack web apps, practical AI tools, and software for messy real-world problems. Grinding Java DSA by day, shipping working prototypes by night.
+          </p>
+
+          <!-- Primary CTA ('Say hi!' matching gazijarin.com) + Subtle Copy Email Button -->
+          <div class="mt-8 flex flex-wrap items-center justify-center md:justify-start gap-3.5">
+            <a
+              href="mailto:tanyanagaraj146@gmail.com"
+              class="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-[6px] border border-cyanAccent bg-navy text-cyanAccent font-display text-sm sm:text-base font-bold hover:bg-cyanAccent/10 transition-all duration-200"
+            >
+              <!-- Solid Cyan Envelope SVG Icon -->
+              <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z" />
+              </svg>
+              <span>Say hi!</span>
+            </a>
+
+            <button
+              id="copy-email-btn"
+              type="button"
+              aria-label="Copy email address"
+              class="inline-flex items-center gap-2 px-4 py-3.5 rounded-[6px] border border-navyLighter text-slateMuted hover:text-cyanAccent hover:border-cyanAccent/50 font-sans text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer"
+            >
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
+              </svg>
+              <span>copy email</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- 3. "/ about me" SECTION                                             -->
+    <!-- =================================================================== -->
+    <section id="about" class="py-20 sm:py-28 scroll-mt-16 reveal">
+      <!-- Section Header (lowercase bold Nunito, '/' in #ccd6f6) -->
+      <div class="flex items-center gap-5 mb-12">
+        <h2 class="section-heading whitespace-nowrap">/ about me</h2>
+        <div class="h-px bg-navyLighter flex-1 max-w-sm"></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
+        <!-- Left Column: Bio + Staggered Slide-In 2-Col Tech List -->
+        <div class="md:col-span-7 space-y-5 text-slateMuted text-base sm:text-[1.06rem] font-normal leading-relaxed">
+          <p>
+            I’m a Computer Science &amp; Engineering student at <strong class="text-slateLight font-bold">GSSSIETW</strong> (<span class="text-cyanAccent font-mono text-sm">9.325 CGPA</span>) and a <strong class="text-slateLight font-bold">Rolls-Royce Wings4Her Scholar</strong>. I care about building software that actually works under real-world constraints—like air-gapped hospital networks, low-bandwidth rural farms, and regional voice interfaces.
+          </p>
+
+          <p>Here are some technologies I have been working with:</p>
+
+          <!-- Clean 2-Column Tech List with Cyan ▹ Markers & Staggered Slide-In -->
+          <ul id="skills-list" class="grid grid-cols-2 gap-y-2.5 gap-x-4 pt-1 font-mono text-xs sm:text-sm text-slateLight">
+            <li class="skill-item flex items-center gap-2.5 cursor-default" style="--delay: 0ms;">
+              <span class="skill-arrow text-cyanAccent text-xs">▹</span>
+              <span>Java (DSA)</span>
+            </li>
+            <li class="skill-item flex items-center gap-2.5 cursor-default" style="--delay: 90ms;">
+              <span class="skill-arrow text-cyanAccent text-xs">▹</span>
+              <span>Python</span>
+            </li>
+            <li class="skill-item flex items-center gap-2.5 cursor-default" style="--delay: 180ms;">
+              <span class="skill-arrow text-cyanAccent text-xs">▹</span>
+              <span>TypeScript / JS</span>
+            </li>
+            <li class="skill-item flex items-center gap-2.5 cursor-default" style="--delay: 270ms;">
+              <span class="skill-arrow text-cyanAccent text-xs">▹</span>
+              <span>React &amp; Next.js</span>
+            </li>
+            <li class="skill-item flex items-center gap-2.5 cursor-default" style="--delay: 360ms;">
+              <span class="skill-arrow text-cyanAccent text-xs">▹</span>
+              <span>Node.js &amp; FastAPI</span>
+            </li>
+            <li class="skill-item flex items-center gap-2.5 cursor-default" style="--delay: 450ms;">
+              <span class="skill-arrow text-cyanAccent text-xs">▹</span>
+              <span>PostgreSQL &amp; SQL</span>
+            </li>
+          </ul>
+
+          <p class="pt-2">
+            Right now, I’m focused on sharpening my core <strong class="text-slateLight font-bold">Java DSA</strong> and systems fundamentals while shipping full-stack and applied AI projects. Outside of code, you’ll probably find me sketching minimalist doodles, collecting hackathon stickers, or figuring out how to turn messy ideas into working prototypes fast.
+          </p>
+        </div>
+
+        <!-- Right Column: Portrait Frame with Offset Cyan Border (280x280) -->
+        <div class="md:col-span-5 flex justify-center md:justify-end">
+          <div class="portrait-wrapper w-[260px] h-[260px] sm:w-[280px] sm:h-[280px]">
+            <div class="portrait-border" aria-hidden="true"></div>
+            <div class="portrait-card w-full h-full rounded-xl bg-navyLight border border-navyLighter overflow-hidden relative flex items-center justify-center shadow-2xl">
+              <!--
+                TO ADD YOUR OWN HEADSHOT PHOTO:
+                Replace the <svg> block below with:
+                <img src="your-photo.jpg" alt="Tanya N" class="w-full h-full object-cover" />
+              -->
+              <svg viewBox="0 0 280 280" class="w-full h-full" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tanya N Monogram">
+                <defs>
+                  <radialGradient id="monogramGlow" cx="50%" cy="45%" r="60%">
+                    <stop offset="0%" stop-color="#64ffda" stop-opacity="0.16" />
+                    <stop offset="100%" stop-color="#0a192f" stop-opacity="0" />
+                  </radialGradient>
+                </defs>
+                <rect width="280" height="280" fill="#112240" />
+                <rect width="280" height="280" fill="url(#monogramGlow)" />
+
+                <!-- Subtle constellation / circuit lines -->
+                <g stroke="#233554" stroke-width="1" fill="none">
+                  <path d="M 0 64 H 74 L 96 86" />
+                  <path d="M 280 212 H 208 L 184 188" />
+                  <path d="M 52 280 V 210 L 82 180" />
+                  <path d="M 226 0 V 66 L 194 98" />
+                  <circle cx="140" cy="140" r="88" stroke-dasharray="3 6" stroke-opacity="0.7" />
+                  <circle cx="140" cy="140" r="112" stroke-opacity="0.4" />
+                </g>
+
+                <!-- Glowing constellation nodes -->
+                <g fill="#64ffda">
+                  <circle cx="96" cy="86" r="2.5" opacity="0.85" />
+                  <circle cx="184" cy="188" r="2.5" opacity="0.85" />
+                  <circle cx="82" cy="180" r="2" opacity="0.6" />
+                  <circle cx="194" cy="98" r="2" opacity="0.6" />
+                  <circle cx="140" cy="52" r="2" opacity="0.5" />
+                  <circle cx="140" cy="228" r="2" opacity="0.5" />
+                </g>
+
+                <!-- Geometric Center Monogram -->
+                <polygon points="140,74 196,106 196,170 140,202 84,170 84,106" fill="#0a192f" fill-opacity="0.78" stroke="#64ffda" stroke-opacity="0.5" stroke-width="1.25" />
+                <text x="140" y="151" text-anchor="middle" fill="#ccd6f6" font-family="'Nunito', sans-serif" font-weight="800" font-size="42" letter-spacing="4">TN</text>
+                <text x="140" y="250" text-anchor="middle" fill="#64ffda" font-family="'JetBrains Mono', monospace" font-size="11" letter-spacing="2.2" opacity="0.85">TN // 9.325</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- 4. "/ experience" SECTION (Interactive Vertical Tab Switcher)       -->
+    <!-- =================================================================== -->
+    <section id="experience" class="py-20 sm:py-28 scroll-mt-16 reveal">
+      <!-- Section Header -->
+      <div class="flex items-center gap-5 mb-12">
+        <h2 class="section-heading whitespace-nowrap">/ experience</h2>
+        <div class="h-px bg-navyLighter flex-1 max-w-sm"></div>
+      </div>
+
+      <div class="flex flex-col md:flex-row gap-8 md:gap-10 min-h-[290px]">
+        <!-- Tab List (4 Tabs Only: GSSSIETW, Rolls-Royce, Google Cloud, Hackathons) -->
+        <div class="relative flex md:flex-col overflow-x-auto md:overflow-visible border-b-2 md:border-b-0 md:border-l-2 border-navyLighter shrink-0 md:w-48" role="tablist" aria-label="Experience Tabs" id="exp-tablist">
+          <!-- Animated Sliding Indicator (Desktop: left bar) -->
+          <div id="exp-indicator" class="hidden md:block absolute -left-[2px] top-0 w-[2px] h-11 bg-cyanAccent transition-transform duration-300 ease-out rounded-full"></div>
+
+          <button type="button" role="tab" aria-selected="true" data-tab="0" class="exp-tab px-5 h-11 text-left font-sans font-semibold text-xs sm:text-sm whitespace-nowrap transition-colors text-cyanAccent bg-navyLight/60 border-b-2 md:border-b-0 border-cyanAccent md:border-transparent">
+            GSSSIETW
+          </button>
+          <button type="button" role="tab" aria-selected="false" data-tab="1" class="exp-tab px-5 h-11 text-left font-sans font-semibold text-xs sm:text-sm whitespace-nowrap transition-colors text-slateMuted hover:text-cyanAccent hover:bg-navyLight/40 border-b-2 md:border-b-0 border-transparent">
+            Rolls-Royce
+          </button>
+          <button type="button" role="tab" aria-selected="false" data-tab="2" class="exp-tab px-5 h-11 text-left font-sans font-semibold text-xs sm:text-sm whitespace-nowrap transition-colors text-slateMuted hover:text-cyanAccent hover:bg-navyLight/40 border-b-2 md:border-b-0 border-transparent">
+            Google Cloud
+          </button>
+          <button type="button" role="tab" aria-selected="false" data-tab="3" class="exp-tab px-5 h-11 text-left font-sans font-semibold text-xs sm:text-sm whitespace-nowrap transition-colors text-slateMuted hover:text-cyanAccent hover:bg-navyLight/40 border-b-2 md:border-b-0 border-transparent">
+            Hackathons
+          </button>
+        </div>
+
+        <!-- Active Tab Content Panel -->
+        <div id="exp-panel" class="flex-1 pt-1" role="tabpanel">
+          <!-- Rendered dynamically via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- 5. "/ software" SECTION (Spotlight Carousel + 3-Col Project Grid)   -->
+    <!-- =================================================================== -->
+    <section id="software" class="py-20 sm:py-28 scroll-mt-16 reveal">
+      <!-- Section Header -->
+      <div class="flex items-center justify-between gap-4 mb-12">
+        <div class="flex items-center gap-5 flex-1">
+          <h2 class="section-heading whitespace-nowrap">/ software</h2>
+          <div class="h-px bg-navyLighter flex-1 max-w-sm"></div>
+        </div>
+
+        <a
+          href="https://github.com/Tanya-Nagaraj"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="font-mono text-xs sm:text-sm text-cyanAccent hover:underline underline-offset-4 whitespace-nowrap"
+        >
+          View GitHub ↗
+        </a>
+      </div>
+
+      <!-- TOP PART: Featured Project Spotlight Carousel -->
+      <div class="mb-14 relative" id="spotlight-carousel">
+        <div class="relative rounded-2xl bg-navyLight border border-navyLighter/90 overflow-hidden shadow-2xl min-h-[340px] sm:min-h-[360px] flex items-center">
+          <!-- Atmospheric Background Gradient & Abstract Architecture Visual -->
+          <div id="carousel-visual" class="absolute inset-0 pointer-events-none opacity-40 sm:opacity-55 transition-opacity duration-500"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-navy/95 via-navyLight/85 to-navyLight/40 sm:bg-gradient-to-r sm:from-navy/95 sm:via-navyLight/90 sm:to-navyLight/55 pointer-events-none"></div>
+
+          <!-- Slide Content -->
+          <div id="carousel-content" class="relative z-10 w-full p-7 sm:p-12 md:p-14 max-w-2xl">
+            <!-- Populated dynamically via JS -->
+          </div>
+
+          <!-- Previous / Next Arrow Buttons -->
+          <button
+            id="carousel-prev"
+            type="button"
+            aria-label="Previous Featured Project"
+            class="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 z-20 p-2 rounded-full bg-navy/70 border border-navyLighter text-slateLight hover:text-cyanAccent hover:border-cyanAccent transition-all hidden sm:flex items-center justify-center"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <button
+            id="carousel-next"
+            type="button"
+            aria-label="Next Featured Project"
+            class="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 z-20 p-2 rounded-full bg-navy/70 border border-navyLighter text-slateLight hover:text-cyanAccent hover:border-cyanAccent transition-all hidden sm:flex items-center justify-center"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Carousel Controls & Dot Indicators -->
+        <div class="mt-4 flex items-center justify-center gap-4">
+          <button
+            id="carousel-prev-mobile"
+            type="button"
+            aria-label="Previous Slide"
+            class="sm:hidden p-1.5 rounded-full text-slateMuted hover:text-cyanAccent"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+
+          <div id="carousel-dots" class="flex items-center gap-2.5" role="tablist" aria-label="Featured Slides"></div>
+
+          <button
+            id="carousel-next-mobile"
+            type="button"
+            aria-label="Next Slide"
+            class="sm:hidden p-1.5 rounded-full text-slateMuted hover:text-cyanAccent"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- BOTTOM PART: 3-Column Project Card Grid (All 6 Projects) -->
+      <div id="projects-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- Populated dynamically via JS -->
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- 7. MINIMAL CENTERED FOOTER                                          -->
+    <!-- =================================================================== -->
+    <footer class="py-12 mt-8 text-center font-mono text-xs text-slateMuted space-y-3">
+      <div class="flex items-center justify-center gap-5 text-slateMuted">
+        <a
+          href="https://github.com/Tanya-Nagaraj"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="GitHub"
+          class="hover:text-cyanAccent hover:-translate-y-0.5 transition-all p-1"
+        >
+          <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22" />
+          </svg>
+        </a>
+        <a
+          href="https://www.linkedin.com/in/tanya-n-4748a2382/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="LinkedIn"
+          class="hover:text-cyanAccent hover:-translate-y-0.5 transition-all p-1"
+        >
+          <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z" />
+            <circle cx="4" cy="4" r="2" stroke="none" fill="currentColor" />
+          </svg>
+        </a>
+        <a
+          href="mailto:tanyanagaraj146@gmail.com"
+          aria-label="Email"
+          class="hover:text-cyanAccent hover:-translate-y-0.5 transition-all p-1"
+        >
+          <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+        </a>
+      </div>
+      <div class="space-y-1">
+        <p>Built and designed by <span class="text-slateLight">Tanya N.</span></p>
+        <p>All rights reserved. © 2026</p>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- Subtle Copy-Email Toast Notification -->
+  <div
+    id="email-toast"
+    role="status"
+    aria-live="polite"
+    class="fixed bottom-6 right-6 z-50 px-4 py-2.5 rounded-lg bg-navyLight border border-cyanAccent/50 text-cyanAccent font-mono text-xs shadow-xl opacity-0 translate-y-3 pointer-events-none transition-all duration-300"
+  >
+    Copied tanyanagaraj146@gmail.com
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- 6. PLAYABLE "GAME MODE" OVERLAY — PACKET RUNNER                       -->
+  <!-- ===================================================================== -->
+  <div
+    id="game-overlay"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Packet Runner Arcade Game"
+    class="fixed inset-0 z-50 hidden flex-col items-center justify-center bg-[#0a192f]/95 backdrop-blur-md p-4 sm:p-6"
+  >
+    <div class="w-full max-w-3xl flex flex-col gap-4">
+      <!-- Top HUD Bar -->
+      <div class="flex flex-wrap items-center justify-between gap-3 px-1">
+        <div class="flex items-center gap-3">
+          <span class="w-2.5 h-2.5 rounded-full bg-cyanAccent shadow-[0_0_10px_#64ffda]"></span>
+          <h3 class="font-mono font-semibold text-sm sm:text-base tracking-wider text-slateLight">
+            PACKET RUNNER
+          </h3>
+        </div>
+
+        <div class="flex items-center gap-5 font-mono text-xs sm:text-sm">
+          <div class="text-slateMuted">SCORE <span id="game-score" class="text-cyanAccent font-semibold ml-1">0</span></div>
+          <div class="text-slateMuted">BEST <span id="game-best" class="text-slateLight font-semibold ml-1">0</span></div>
+          <button
+            id="close-game-btn"
+            type="button"
+            class="px-3 py-1.5 rounded-lg border border-navyLighter bg-navyLight text-slateMuted hover:text-cyanAccent hover:border-cyanAccent text-xs transition-colors"
+          >
+            Exit game mode (ESC)
+          </button>
+        </div>
+      </div>
+
+      <!-- Responsive Canvas Frame -->
+      <div id="game-stage" class="relative w-full h-[380px] sm:h-[440px] rounded-2xl border border-cyanAccent/30 bg-[#071324] overflow-hidden shadow-2xl touch-none">
+        <canvas id="game-canvas" class="w-full h-full block"></canvas>
+
+        <!-- Start / Game Over Overlay Inside Stage -->
+        <div id="game-menu" class="absolute inset-0 flex flex-col items-center justify-center bg-navy/80 backdrop-blur-[2px] text-center px-6">
+          <p class="font-mono text-xs uppercase tracking-widest text-cyanAccent mb-2">Arcade Sub-System</p>
+          <h4 id="game-menu-title" class="font-display font-bold text-2xl sm:text-3xl text-slateLight">PACKET RUNNER</h4>
+          <p id="game-menu-desc" class="mt-2 text-xs sm:text-sm text-slateMuted max-w-md">
+            Steer your cyan data packet with <span class="text-slateLight font-mono">Arrow Keys / WASD</span> or <span class="text-slateLight font-mono">Mouse / Touch</span>. Dodge red corrupted packets and collect glowing cyan nodes.
+          </p>
+          <button
+            id="game-start-btn"
+            type="button"
+            class="mt-6 px-6 py-2.5 rounded-lg border border-cyanAccent bg-cyanAccent/10 text-cyanAccent font-mono text-sm font-medium hover:bg-cyanAccent hover:text-navy transition-all cursor-pointer"
+          >
+            Start Run
+          </button>
+        </div>
+      </div>
+
+      <!-- Subtle Controls Hint -->
+      <div class="flex flex-wrap items-center justify-between gap-2 px-1 font-mono text-[11px] text-slateMuted">
+        <span>Controls: ← ↑ ↓ → / WASD / Mouse or Touch Drag</span>
+        <span>Collect <span class="text-cyanAccent">◆ cyan nodes</span> (+10) · Avoid <span class="text-coralDanger">■ corrupted packets</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- APPLICATION SCRIPTS                                                   -->
+  <!-- ===================================================================== -->
+  <script>
+    /* =======================================================================
+       1. DATA: EXPERIENCE TABS (4 TABS), FEATURED CAROUSEL, AND 6 PROJECTS
+       ======================================================================= */
+    const EXPERIENCES = [
+      {
+        tab: 'GSSSIETW',
+        role: 'B.E. Computer Science & Engineering',
+        org: '@ GSSSIETW',
+        date: '2025 – 2029',
+        bullets: [
+          'Maintaining a 9.325/10 CGPA across Computer Science & Engineering coursework.',
+          'Serving as Community Project Team Lead for PharmaGuard AI, coordinating team architecture, research, and review presentations.'
+        ]
+      },
+      {
+        tab: 'Rolls-Royce',
+        role: 'Wings4Her Scholar',
+        org: '@ Rolls-Royce India',
+        date: '2025 – PRESENT',
+        bullets: [
+          'Awarded the competitive merit-based Rolls-Royce Wings4Her engineering scholarship for women in STEM, recognizing academic excellence and technical potential.'
+        ]
+      },
+      {
+        tab: 'Google Cloud',
+        role: 'Google Cloud Career Launchpad Member',
+        org: '@ Google Cloud',
+        date: '2026',
+        bullets: [
+          'Progressing through the Associate Cloud Engineer learning track with hands-on labs in compute, IAM, cloud networking, and deployment workflows.',
+          'Designed and submitted a working Proof of Concept (PoC) for the Google Solution Challenge 2026.'
+        ]
+      },
+      {
+        tab: 'Hackathons',
+        role: 'National & Inter-Collegiate Hackathons',
+        org: '@ Builder & Finalist',
+        date: '2026',
+        bullets: [
+          'Shortlisted in the Top 7 at NIE Mysuru Hackathon with Crop Doctor AI, a multimodal plant pathology platform.',
+          'Built AEGIS, an offline multi-agent hospital command node, during the 36-hour Dayananda Sagar Hackathon.',
+          'Top 40 finalist at WITCHUNT and submitted a technical abstract for Techgium 10th Edition (L&T).'
+        ],
+        badge: "GSSoC'26"
+      }
+    ];
+
+    const FEATURED_PROJECTS = [
+      {
+        title: 'AEGIS',
+        eyebrow: 'FEATURED SYSTEM · 01',
+        description:
+          'Offline-first, air-gapped multi-agent hospital command node over LAN with local Llama 3.2 (1B) via Ollama, human-in-the-loop DB commits, and barcode scanning.',
+        stack: ['REACT', 'TYPESCRIPT', 'NODE.JS', 'POSTGRESQL', 'PRISMA', 'OLLAMA'],
+        github: 'https://github.com/Tanya-Nagaraj/AEGIS',
+        visualSvg: `
+          <svg viewBox="0 0 800 360" class="w-full h-full object-cover" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="aegisGlow" cx="78%" cy="50%" r="48%">
+                <stop offset="0%" stop-color="#64ffda" stop-opacity="0.22" />
+                <stop offset="100%" stop-color="#112240" stop-opacity="0" />
+              </radialGradient>
+            </defs>
+            <rect width="800" height="360" fill="url(#aegisGlow)" />
+            <g stroke="#64ffda" stroke-opacity="0.32" stroke-width="1.2" fill="none">
+              <circle cx="620" cy="180" r="110" stroke-dasharray="4 6" />
+              <circle cx="620" cy="180" r="64" />
+              <line x1="620" y1="70" x2="620" y2="116" />
+              <line x1="620" y1="244" x2="620" y2="290" />
+              <line x1="510" y1="180" x2="556" y2="180" />
+              <line x1="684" y1="180" x2="730" y2="180" />
+              <rect x="582" y="156" width="76" height="48" rx="8" fill="#0a192f" fill-opacity="0.7" />
+              <rect x="466" y="164" width="44" height="32" rx="6" fill="#0a192f" fill-opacity="0.6" />
+              <rect x="730" y="164" width="44" height="32" rx="6" fill="#0a192f" fill-opacity="0.6" />
+              <rect x="598" y="38" width="44" height="32" rx="6" fill="#0a192f" fill-opacity="0.6" />
+            </g>
+            <g fill="#64ffda" font-family="'JetBrains Mono', monospace" font-size="10" text-anchor="middle" opacity="0.8">
+              <text x="620" y="184">LAN CORE</text>
+              <text x="620" y="58">CLINICAL</text>
+              <text x="488" y="184">LAB</text>
+              <text x="752" y="184">RX</text>
+            </g>
+          </svg>
+        `
+      },
+      {
+        title: 'Crop Doctor AI',
+        eyebrow: 'FEATURED SYSTEM · 02',
+        description:
+          'Multimodal plant pathology platform with SSE streaming, grounded Karnataka diseases.csv knowledge base, live Open-Meteo weather, and Kannada/Hindi/English voice STT/TTS.',
+        stack: ['NEXT.JS 14', 'TYPESCRIPT', 'TAILWIND', 'GEMINI API'],
+        github: 'https://github.com/Tanya-Nagaraj/Crop-Doctor-AI',
+        visualSvg: `
+          <svg viewBox="0 0 800 360" class="w-full h-full object-cover" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="cropGlow" cx="76%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#64ffda" stop-opacity="0.2" />
+                <stop offset="100%" stop-color="#112240" stop-opacity="0" />
+              </radialGradient>
+            </defs>
+            <rect width="800" height="360" fill="url(#cropGlow)" />
+            <g stroke="#64ffda" stroke-opacity="0.3" stroke-width="1.2" fill="none">
+              <path d="M 480 260 C 520 180, 600 110, 720 80" />
+              <path d="M 480 260 C 560 240, 650 180, 720 80" />
+              <line x1="510" y1="230" x2="690" y2="110" stroke-dasharray="3 5" />
+              <rect x="520" y="90" width="210" height="170" rx="10" stroke-opacity="0.2" />
+              <line x1="540" y1="130" x2="710" y2="130" stroke-opacity="0.25" />
+              <line x1="540" y1="165" x2="680" y2="165" stroke-opacity="0.25" />
+              <line x1="540" y1="200" x2="650" y2="200" stroke-opacity="0.25" />
+            </g>
+            <g fill="#64ffda" opacity="0.75">
+              <circle cx="520" cy="210" r="3" />
+              <circle cx="620" cy="145" r="4" />
+              <circle cx="720" cy="80" r="3" />
+            </g>
+          </svg>
+        `
+      },
+      {
+        title: 'SkillScroll',
+        eyebrow: 'FEATURED SYSTEM · 03',
+        description:
+          'Audio-native push-to-talk negotiation agent with Reels-style quest cards helping artisans practice against AI buyer personas.',
+        stack: ['FASTAPI', 'PYTHON', 'GEMINI 1.5 FLASH', 'FIREBASE'],
+        github: 'https://github.com/Tanya-Nagaraj/SkillScroll',
+        visualSvg: `
+          <svg viewBox="0 0 800 360" class="w-full h-full object-cover" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="skillGlow" cx="76%" cy="50%" r="48%">
+                <stop offset="0%" stop-color="#64ffda" stop-opacity="0.2" />
+                <stop offset="100%" stop-color="#112240" stop-opacity="0" />
+              </radialGradient>
+            </defs>
+            <rect width="800" height="360" fill="url(#skillGlow)" />
+            <g stroke="#64ffda" stroke-opacity="0.35" stroke-width="2" stroke-linecap="round">
+              <line x1="510" y1="150" x2="510" y2="210" />
+              <line x1="530" y1="120" x2="530" y2="240" />
+              <line x1="550" y1="140" x2="550" y2="220" />
+              <line x1="570" y1="95"  x2="570" y2="265" />
+              <line x1="590" y1="130" x2="590" y2="230" />
+              <line x1="610" y1="80"  x2="610" y2="280" />
+              <line x1="630" y1="115" x2="630" y2="245" />
+              <line x1="650" y1="145" x2="650" y2="215" />
+              <line x1="670" y1="105" x2="670" y2="255" />
+              <line x1="690" y1="135" x2="690" y2="225" />
+              <line x1="710" y1="160" x2="710" y2="200" />
+            </g>
+          </svg>
+        `
+      }
+    ];
+
+    const ALL_PROJECTS = [
+      {
+        title: 'AEGIS',
+        description:
+          'Offline-first, air-gapped multi-agent hospital command node running local Llama 3.2 (1B) via Ollama over LAN with human-in-the-loop DB commits and barcode scanning.',
+        stack: 'React · TypeScript · Node.js · PostgreSQL · Ollama (Llama 3.2)',
+        github: 'https://github.com/Tanya-Nagaraj/AEGIS'
+      },
+      {
+        title: 'Crop Doctor AI',
+        description:
+          'Multimodal plant pathology platform with SSE streaming, grounded Karnataka diseases.csv knowledge base, live Open-Meteo weather, and Kannada/Hindi/English voice STT/TTS.',
+        stack: 'Next.js 14 · TypeScript · Gemini API · SSE · Open-Meteo',
+        github: 'https://github.com/Tanya-Nagaraj/Crop-Doctor-AI'
+      },
+      {
+        title: 'SkillScroll',
+        description:
+          'Audio-native push-to-talk negotiation agent with Reels-style quest cards helping artisans practice against AI buyer personas.',
+        stack: 'FastAPI · Python · Gemini 1.5 Flash · Firebase',
+        github: 'https://github.com/Tanya-Nagaraj/SkillScroll'
+      },
+      {
+        title: 'PharmaGuard AI',
+        description:
+          'Pharmacy inventory & expiry monitoring platform with barcode/OCR tracking concepts to streamline stock control and flag expiring batches.',
+        stack: 'React · Node.js · PostgreSQL · Barcode/OCR',
+        github: 'https://github.com/Tanya-Nagaraj/PharmaGuard-AI'
+      },
+      {
+        title: 'CryptoVault',
+        description:
+          'Interactive browser-based cryptography lab visualizing modular arithmetic, RSA key math, password hashing, and brute-force complexity.',
+        stack: 'HTML5 · CSS3 · JavaScript · Canvas API',
+        github: 'https://github.com/Tanya-Nagaraj/CryptoVault'
+      },
+      {
+        title: 'Campus Lost & Found',
+        description:
+          'Student web application for reporting, searching, and recovering lost campus items.',
+        stack: 'HTML · CSS · JavaScript · Web App',
+        github: 'https://github.com/Tanya-Nagaraj/Campus-lost-and-found'
+      }
+    ];
+
+    /* =======================================================================
+       2. ANIMATED HALFTONE-DOT CYAN ASCII CAT + LASER POINTER TRACKING
+       ======================================================================= */
+    (function initAsciiCat() {
+      const heroSection = document.getElementById('home');
+      const laserDot = document.getElementById('hero-laser-dot');
+      const container = document.getElementById('cat-container');
+      const canvas = document.getElementById('cat-canvas');
+      if (!container || !canvas) return;
+      const ctx = canvas.getContext('2d');
+
+      const CHAR_RAMP = [' ', '.', ':', '-', '=', '+', '*', '#', '%', '@'];
+      let width = 320;
+      let height = 330;
+      let dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+      // Frame-rate-independent clock & smooth organic blink state (3.5s–5.5s interval, ~260ms blink)
+      let startTime = performance.now();
+      let lastNow = startTime;
+      let nextBlinkAt = startTime + 3500 + Math.random() * 2000;
+      let blinkStart = -1;
+      const BLINK_DURATION = 260;
+
+      // Laser pointer tracking & smooth cat head/eye gaze interpolation
+      let mouse = { x: -999, y: -999, active: false };
+      let laser = { clientX: -999, clientY: -999, active: false, overInteractive: false };
+      let gazeX = 0;
+      let gazeY = 0;
+      let targetGazeX = 0;
+      let targetGazeY = 0;
+      let excitement = 0;
+      let targetExcitement = 0;
+      let tailPhase = 0;
+
+      // Keep canvas crisp and responsive to container size
+      function resizeCanvas() {
+        const rect = container.getBoundingClientRect();
+        width = Math.max(rect.width || 320, 220);
+        height = Math.max(rect.height || 330, 220);
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.floor(width * dpr);
+        canvas.height = Math.floor(height * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      window.addEventListener('resize', resizeCanvas);
+
+      // Update laser dot & compute normalized gaze direction from cat's head to cursor
+      function updateLaserPointer(clientX, clientY, targetEl) {
+        laser.clientX = clientX;
+        laser.clientY = clientY;
+        laser.active = true;
+        laser.overInteractive = Boolean(targetEl && targetEl.closest && targetEl.closest('a, button'));
+
+        const rect = canvas.getBoundingClientRect();
+        mouse.x = clientX - rect.left;
+        mouse.y = clientY - rect.top;
+        mouse.active =
+          mouse.x >= -40 && mouse.x <= rect.width + 40 && mouse.y >= -40 && mouse.y <= rect.height + 40;
+
+        // Cat head center in viewport coordinates (head sits around x=46%, y=30% of canvas)
+        const headCenterX = rect.left + rect.width * 0.46;
+        const headCenterY = rect.top + rect.height * 0.30;
+        const dx = clientX - headCenterX;
+        const dy = clientY - headCenterY;
+        const dist = Math.hypot(dx, dy);
+
+        // Smoothly clamp gaze vector in [-1, 1]
+        const normDist = Math.max(1, dist);
+        const strength = Math.min(1, dist / 220);
+        targetGazeX = (dx / normDist) * strength;
+        targetGazeY = (dy / normDist) * strength;
+
+        // Cat gets more excited (faster tail swish) when laser is closer
+        targetExcitement = Math.max(0.2, Math.min(1, 1 - dist / 620));
+
+        if (laserDot) {
+          const scale = laser.overInteractive ? 0.55 : 1;
+          laserDot.style.transform = `translate3d(${clientX}px, ${clientY}px, 0) translate(-50%, -50%) scale(${scale})`;
+          laserDot.classList.add('active');
+        }
+      }
+
+      function clearLaserPointer() {
+        laser.active = false;
+        mouse.active = false;
+        targetGazeX = 0;
+        targetGazeY = 0;
+        targetExcitement = 0;
+        if (laserDot) {
+          laserDot.classList.remove('active');
+        }
+      }
+
+      if (heroSection) {
+        heroSection.addEventListener('mousemove', (e) => {
+          updateLaserPointer(e.clientX, e.clientY, e.target);
+        });
+        heroSection.addEventListener('mouseleave', clearLaserPointer);
+        heroSection.addEventListener(
+          'touchstart',
+          (e) => {
+            if (e.touches[0]) updateLaserPointer(e.touches[0].clientX, e.touches[0].clientY, e.target);
+          },
+          { passive: true }
+        );
+        heroSection.addEventListener(
+          'touchmove',
+          (e) => {
+            if (e.touches[0]) updateLaserPointer(e.touches[0].clientX, e.touches[0].clientY, e.target);
+          },
+          { passive: true }
+        );
+        heroSection.addEventListener('touchend', clearLaserPointer);
+      }
+
+      // Hide laser dot if user scrolls out of the hero section
+      window.addEventListener(
+        'scroll',
+        () => {
+          if (laser.active && heroSection) {
+            const heroRect = heroSection.getBoundingClientRect();
+            if (heroRect.bottom < 80) clearLaserPointer();
+          }
+        },
+        { passive: true }
+      );
+
+      // Shortest Euclidean distance from point (px, py) to segment (ax, ay)-(bx, by)
+      function distToSeg(px, py, ax, ay, bx, by) {
+        const vx = bx - ax;
+        const vy = by - ay;
+        const wx = px - ax;
+        const wy = py - ay;
+        const lenSq = vx * vx + vy * vy;
+        const t = lenSq === 0 ? 0 : Math.max(0, Math.min(1, (wx * vx + wy * vy) / lenSq));
+        const cx = ax + t * vx;
+        const cy = ay + t * vy;
+        return Math.hypot(px - cx, py - cy);
+      }
+
+      // Point-in-triangle test for pointed cat ears
+      function pointInTri(px, py, ax, ay, bx, by, cx, cy) {
+        const d1 = (px - bx) * (ay - by) - (ax - bx) * (py - by);
+        const d2 = (px - cx) * (by - cy) - (bx - cx) * (py - cy);
+        const d3 = (px - ax) * (cy - ay) - (cx - ax) * (py - ay);
+        const hasNeg = d1 < 0 || d2 < 0 || d3 < 0;
+        const hasPos = d1 > 0 || d2 > 0 || d3 > 0;
+        return !(hasNeg && hasPos);
+      }
+
+      // Cubic Bezier evaluator for fluid procedural tail
+      function cubicBezier(t, p0, p1, p2, p3) {
+        const u = 1 - t;
+        const tt = t * t;
+        const uu = u * u;
+        const uuu = uu * u;
+        const ttt = tt * t;
+        return [
+          uuu * p0[0] + 3 * uu * t * p1[0] + 3 * u * tt * p2[0] + ttt * p3[0],
+          uuu * p0[1] + 3 * uu * t * p1[1] + 3 * u * tt * p2[1] + ttt * p3[1]
+        ];
+      }
+
+      // Pre-sample procedural curled tail curve once per frame for silky 60fps swish
+      const TAIL_SAMPLES = 24;
+      const tailCurve = new Array(TAIL_SAMPLES + 1);
+      function updateTailCurve(phase, energy) {
+        const amp = 1 + energy * 0.38;
+        const wave1 = Math.sin(phase) * amp;
+        const wave2 = Math.sin(phase - 0.85) * amp;
+        const wave3 = Math.sin(phase - 1.55) * amp;
+
+        const p0 = [0.34, 0.72];
+        const p1 = [0.64 + wave1 * 0.04, 0.76 + wave1 * 0.03];
+        const p2 = [0.84 + wave2 * 0.09, 0.36 + wave2 * 0.05];
+        const p3 = [0.56 + wave3 * 0.14, 0.02 + Math.cos(phase - 1.2) * 0.06 * amp];
+
+        for (let i = 0; i <= TAIL_SAMPLES; i++) {
+          const t = i / TAIL_SAMPLES;
+          const pt = cubicBezier(t, p0, p1, p2, p3);
+          const ripple = Math.sin(phase * 1.15 - t * 2.6) * 0.035 * amp * t * t;
+          tailCurve[i] = [pt[0] + ripple, pt[1] + ripple * 0.45, t];
+        }
+      }
+
+      // Evaluate sitting cat silhouette & shading in normalized space: x in [-1,1], y in [-1,1] (+y down)
+      function sampleCat(x, y, blinkAmount, gx, gy) {
+        // 2.5D head-turn offsets driven by smooth laser gaze (gx, gy in [-1, 1])
+        const headShiftX = gx * 0.055;
+        const headShiftY = gy * 0.035;
+        const faceShiftX = gx * 0.092;
+        const faceShiftY = gy * 0.055;
+        const earTipShiftX = gx * 0.028;
+        const earTipShiftY = gy * 0.022;
+
+        // 1. Whiskers (follow the turned face smoothly)
+        const wx = x - faceShiftX * 0.85;
+        const wy = y - faceShiftY * 0.85;
+        const whiskerPairs = [
+          [-0.30, -0.35, -0.78, -0.41],
+          [-0.31, -0.30, -0.80, -0.30],
+          [-0.29, -0.25, -0.74, -0.19],
+          [0.30, -0.35, 0.78, -0.41],
+          [0.31, -0.30, 0.80, -0.30],
+          [0.29, -0.25, 0.74, -0.19]
+        ];
+        for (let i = 0; i < whiskerPairs.length; i++) {
+          const [ax, ay, bx, by] = whiskerPairs[i];
+          const wd = distToSeg(wx, wy, ax, ay, bx, by);
+          if (wd < 0.024) {
+            const soft = 1 - wd / 0.024;
+            return { density: 0.32 + soft * 0.32, alpha: 0.55 + soft * 0.45, part: 'whisker' };
+          }
+        }
+
+        // 2. Pointed Cat Ears (Left & Right — slight parallax for 3D turn feel)
+        const inLeftEar = pointInTri(
+          x,
+          y,
+          -0.34 + headShiftX,
+          -0.52 + headShiftY,
+          -0.38 + earTipShiftX,
+          -0.92 + earTipShiftY,
+          -0.07 + headShiftX,
+          -0.66 + headShiftY
+        );
+        const inRightEar = pointInTri(
+          x,
+          y,
+          0.34 + headShiftX,
+          -0.52 + headShiftY,
+          0.38 + earTipShiftX,
+          -0.92 + earTipShiftY,
+          0.07 + headShiftX,
+          -0.66 + headShiftY
+        );
+        const inLeftInner = pointInTri(
+          x,
+          y,
+          -0.29 + headShiftX,
+          -0.58 + headShiftY,
+          -0.32 + earTipShiftX,
+          -0.80 + earTipShiftY,
+          -0.14 + headShiftX,
+          -0.66 + headShiftY
+        );
+        const inRightInner = pointInTri(
+          x,
+          y,
+          0.29 + headShiftX,
+          -0.58 + headShiftY,
+          0.32 + earTipShiftX,
+          -0.80 + earTipShiftY,
+          0.14 + headShiftX,
+          -0.66 + headShiftY
+        );
+
+        if (inLeftEar || inRightEar) {
+          const isInner = inLeftInner || inRightInner;
+          const light = isInner ? 0.82 : 0.48 + (0.35 - Math.abs(x - headShiftX)) * 0.6;
+          return { density: Math.min(0.95, light), alpha: 1, part: isInner ? 'highlight' : 'fur' };
+        }
+
+        // 3. Cat Head (soft rounded oval turning toward the laser)
+        const hx = (x - headShiftX) / 0.38;
+        const hy = (y - headShiftY + 0.41) / 0.31;
+        const headDist = Math.hypot(hx, hy);
+        if (headDist <= 1.0) {
+          // Smoothly easing eyelids + perspective compression as head turns left/right
+          const eyeRy = 0.056 * (1 - blinkAmount * 0.73) + 0.015 * blinkAmount;
+          const eyeY = -0.43 + faceShiftY + blinkAmount * 0.012;
+          const leftEyeX = -0.145 + faceShiftX;
+          const rightEyeX = 0.145 + faceShiftX;
+          const leftEyeRx = 0.072 * (1 - Math.max(0, -gx) * 0.22);
+          const rightEyeRx = 0.072 * (1 - Math.max(0, gx) * 0.22);
+
+          const leftEyeD = Math.hypot((x - leftEyeX) / leftEyeRx, (y - eyeY) / eyeRy);
+          const rightEyeD = Math.hypot((x - rightEyeX) / rightEyeRx, (y - eyeY) / eyeRy);
+          if (leftEyeD < 1.0 || rightEyeD < 1.0) {
+            const core = 1 - Math.min(leftEyeD, rightEyeD);
+            return {
+              density: Math.max(0.28, (0.98 - blinkAmount * 0.65) * (0.72 + core * 0.28)),
+              alpha: 0.68 + (1 - blinkAmount) * 0.32,
+              part: 'eye',
+              blink: blinkAmount
+            };
+          }
+
+          // Cute tiny nose tracking slightly further than head center for 3D depth
+          const noseD = Math.hypot((x - faceShiftX * 1.12) / 0.042, (y + 0.32 - faceShiftY * 1.08) / 0.028);
+          if (noseD < 1.0) {
+            return { density: 0.92, alpha: 1, part: 'highlight' };
+          }
+
+          // Smooth directional halftone shading (soft light from top-right)
+          const shade = 0.25 + (1 - headDist) * 0.52 + ((x - headShiftX) * 0.22 - (y - headShiftY + 0.41) * 0.18);
+          return { density: Math.max(0.14, Math.min(0.92, shade)), alpha: 1, part: 'fur' };
+        }
+
+        // 4. Sitting Cat Torso / Body (pear-shaped silhouette)
+        if (y >= -0.18 && y <= 0.86) {
+          const t = (y + 0.18) / 1.04; // 0 at neck -> 1 at base
+          const bodyHalfW = 0.24 + Math.sin(Math.min(1, t * 1.06) * Math.PI * 0.72) * 0.27;
+          const bx = x / bodyHalfW;
+          const by = (y - 0.36) / 0.54;
+          const bodyDist = Math.hypot(bx, by);
+          if (bodyDist <= 1.0) {
+            // Subtle bright chest patch
+            const chestD = Math.hypot(x / 0.16, (y - 0.08) / 0.20);
+            const chestBoost = chestD < 1.0 ? (1 - chestD) * 0.28 : 0;
+            const shade = 0.22 + (1 - bodyDist) * 0.48 + (x * 0.18 - y * 0.12) + chestBoost;
+            return { density: Math.max(0.14, Math.min(0.92, shade)), alpha: 1, part: 'fur' };
+          }
+        }
+
+        // 5. Front Sitting Paws
+        const leftPawD = Math.hypot((x + 0.14) / 0.14, (y - 0.82) / 0.085);
+        const rightPawD = Math.hypot((x - 0.14) / 0.14, (y - 0.82) / 0.085);
+        if (leftPawD <= 1.0 || rightPawD <= 1.0) {
+          const pd = Math.min(leftPawD, rightPawD);
+          return { density: 0.42 + (1 - pd) * 0.42, alpha: 1, part: 'fur' };
+        }
+
+        // 6. Procedural Curled Tail with smooth radial falloff
+        let minTailD = 999;
+        let tailT = 0;
+        for (let i = 0; i < TAIL_SAMPLES; i++) {
+          const a = tailCurve[i];
+          const b = tailCurve[i + 1];
+          const d = distToSeg(x, y, a[0], a[1], b[0], b[1]);
+          if (d < minTailD) {
+            minTailD = d;
+            tailT = (a[2] + b[2]) * 0.5;
+          }
+        }
+        const tailRadius = 0.082 * (1 - tailT * 0.35);
+        if (minTailD < tailRadius) {
+          const soft = 1 - minTailD / tailRadius;
+          return {
+            density: 0.26 + soft * 0.58,
+            alpha: 0.45 + soft * 0.55,
+            part: 'tail'
+          };
+        }
+
+        return null;
+      }
+
+      function renderCat(now) {
+        const dt = Math.min(0.05, Math.max(0.001, (now - lastNow) * 0.001));
+        lastNow = now;
+        const timeSec = (now - startTime) * 0.001;
+        ctx.clearRect(0, 0, width, height);
+
+        // Smooth exponential easing for head/eye gaze & tail excitement
+        const gazeEase = 1 - Math.exp(-9.5 * dt);
+        gazeX += (targetGazeX - gazeX) * gazeEase;
+        gazeY += (targetGazeY - gazeY) * gazeEase;
+        excitement += (targetExcitement - excitement) * (1 - Math.exp(-5.0 * dt));
+
+        // Smooth continuous eyelid-closure phase (0 -> 1 -> 0 over ~260ms every 3.5–5.5s)
+        let blinkAmount = 0;
+        if (blinkStart < 0 && now >= nextBlinkAt) {
+          blinkStart = now;
+        }
+        if (blinkStart >= 0) {
+          const progress = (now - blinkStart) / BLINK_DURATION;
+          if (progress >= 1) {
+            blinkStart = -1;
+            nextBlinkAt = now + 3500 + Math.random() * 2000;
+            blinkAmount = 0;
+          } else {
+            blinkAmount = Math.sin(progress * Math.PI);
+          }
+        }
+
+        // Accumulate tail phase seamlessly so speed changes never cause jumps
+        tailPhase += dt * (1.4 + excitement * 2.1);
+        updateTailCurve(tailPhase, excitement);
+
+        // Dense halftone-dot monospace grid matching gazijarin.com
+        const cellW = width < 300 ? 6.4 : 7.0;
+        const cellH = width < 300 ? 8.8 : 9.6;
+        const cols = Math.floor(width / cellW);
+        const rows = Math.floor(height / cellH);
+        const offsetX = (width - cols * cellW) / 2;
+        const offsetY = (height - rows * cellH) / 2;
+
+        ctx.font = `500 ${cellH - 1}px "JetBrains Mono", monospace`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+
+        for (let r = 0; r < rows; r++) {
+          const py = offsetY + r * cellH + cellH / 2;
+          const sy = ((py / height) * 2 - 1) * 1.05;
+
+          for (let c = 0; c < cols; c++) {
+            const px = offsetX + c * cellW + cellW / 2;
+            const sx = ((px / width) * 2 - 1) * 1.08 + 0.08;
+
+            const sample = sampleCat(sx, sy, blinkAmount, gazeX, gazeY);
+            if (!sample) continue;
+
+            // Gentle ambient shimmer + local cursor proximity highlight
+            const shimmer = Math.sin(timeSec * 2.1 + r * 0.26 + c * 0.19) * 0.05;
+            let boost = 0;
+            if (mouse.active) {
+              const md = Math.hypot(px - mouse.x, py - mouse.y);
+              if (md < 64) {
+                boost = (1 - md / 64) * 0.34;
+              }
+            }
+
+            const d = Math.max(0.08, Math.min(0.99, sample.density + shimmer + boost));
+            let ch = CHAR_RAMP[Math.min(CHAR_RAMP.length - 1, Math.floor(d * CHAR_RAMP.length))];
+
+            // Smooth blink glyph progression for eyes
+            if (sample.part === 'eye') {
+              const b = sample.blink || 0;
+              if (b > 0.78) ch = '_';
+              else if (b > 0.55) ch = '-';
+              else if (b > 0.32) ch = '=';
+              else if (b > 0.14) ch = '*';
+              else ch = '@';
+            }
+
+            if (sample.part === 'eye' || sample.part === 'highlight') {
+              ctx.fillStyle = `rgba(100, 255, 218, ${(0.88 * (sample.alpha || 1)).toFixed(2)})`;
+            } else if (boost > 0.08) {
+              ctx.fillStyle = `rgba(100, 255, 218, ${(0.55 + boost * 1.1).toFixed(2)})`;
+            } else if (sample.part === 'whisker') {
+              ctx.fillStyle = `rgba(100, 255, 218, ${(0.45 * (sample.alpha || 1)).toFixed(2)})`;
+            } else {
+              // Subtle cyan-to-sky halftone gradient
+              const alpha = Math.min(0.92, (0.28 + d * 0.58) * (sample.alpha || 1));
+              ctx.fillStyle = d > 0.62
+                ? `rgba(100, 255, 218, ${alpha.toFixed(2)})`
+                : `rgba(56, 189, 248, ${alpha.toFixed(2)})`;
+            }
+
+            ctx.fillText(ch, px, py);
+          }
+        }
+
+        requestAnimationFrame(renderCat);
+      }
+
+      resizeCanvas();
+      requestAnimationFrame(renderCat);
+    })();
+
+    /* =======================================================================
+       3. TYPEWRITER HEADLINE ("hi, tanya here.")
+       ======================================================================= */
+    (function initTypewriter() {
+      const prefixEl = document.getElementById('typewriter-prefix');
+      const nameEl = document.getElementById('typewriter-name');
+      const suffixEl = document.getElementById('typewriter-suffix');
+      if (!prefixEl || !nameEl || !suffixEl) return;
+
+      const segments = [
+        { el: prefixEl, text: 'hi, ' },
+        { el: nameEl, text: 'tanya' },
+        { el: suffixEl, text: ' here.' }
+      ];
+
+      let segIdx = 0;
+      let charIdx = 0;
+
+      function step() {
+        if (segIdx >= segments.length) return;
+        const current = segments[segIdx];
+        current.el.textContent += current.text.charAt(charIdx);
+        charIdx++;
+        if (charIdx >= current.text.length) {
+          segIdx++;
+          charIdx = 0;
+        }
+        setTimeout(step, 85);
+      }
+
+      setTimeout(step, 260);
+    })();
+
+    /* =======================================================================
+       4. COPY EMAIL BUTTON + SUBTLE TOAST
+       ======================================================================= */
+    (function initCopyEmail() {
+      const btn = document.getElementById('copy-email-btn');
+      const toast = document.getElementById('email-toast');
+      if (!btn || !toast) return;
+
+      let toastTimer = null;
+
+      function showToast() {
+        toast.classList.remove('opacity-0', 'translate-y-3', 'pointer-events-none');
+        toast.classList.add('opacity-100', 'translate-y-0');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
+          toast.classList.add('opacity-0', 'translate-y-3', 'pointer-events-none');
+          toast.classList.remove('opacity-100', 'translate-y-0');
+        }, 2200);
+      }
+
+      btn.addEventListener('click', () => {
+        const email = 'tanyanagaraj146@gmail.com';
+        try {
+          const tempInput = document.createElement('textarea');
+          tempInput.value = email;
+          tempInput.setAttribute('readonly', '');
+          tempInput.style.position = 'fixed';
+          tempInput.style.opacity = '0';
+          document.body.appendChild(tempInput);
+          tempInput.select();
+          document.execCommand('copy');
+          document.body.removeChild(tempInput);
+          showToast();
+        } catch (err) {
+          showToast();
+        }
+      });
+    })();
+
+    /* =======================================================================
+       5. MOBILE MENU + NAVBAR SCROLL SPY + SCROLL REVEAL & SKILLS SLIDE-IN
+       ======================================================================= */
+    (function initNavigationAndObservers() {
+      const menuBtn = document.getElementById('mobile-menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const mobileLinks = document.querySelectorAll('.mobile-link');
+
+      if (menuBtn && mobileMenu) {
+        menuBtn.addEventListener('click', () => {
+          mobileMenu.classList.toggle('hidden');
+        });
+        mobileLinks.forEach((link) => {
+          link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+        });
+      }
+
+      // Section scroll-reveal
+      const revealEls = document.querySelectorAll('.reveal');
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12 }
+      );
+      revealEls.forEach((el) => revealObserver.observe(el));
+
+      // Staggered slide-in for / about me technologies
+      const skillsList = document.getElementById('skills-list');
+      if (skillsList) {
+        const skillItems = skillsList.querySelectorAll('.skill-item');
+        const skillObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                skillItems.forEach((item) => item.classList.add('skill-visible'));
+                skillObserver.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.25 }
+        );
+        skillObserver.observe(skillsList);
+      }
+
+      // Active navbar link spy
+      const navLinks = document.querySelectorAll('.nav-link');
+      const sections = ['home', 'about', 'experience', 'software']
+        .map((id) => document.getElementById(id))
+        .filter(Boolean);
+
+      function updateActiveNav() {
+        const scrollY = window.scrollY + 140;
+        let currentId = 'home';
+        sections.forEach((sec) => {
+          if (scrollY >= sec.offsetTop) {
+            currentId = sec.id;
+          }
+        });
+        navLinks.forEach((link) => {
+          link.classList.toggle('active', link.dataset.section === currentId);
+        });
+      }
+
+      window.addEventListener('scroll', updateActiveNav, { passive: true });
+      updateActiveNav();
+    })();
+
+    /* =======================================================================
+       6. EXPERIENCE VERTICAL TAB SWITCHER
+       ======================================================================= */
+    (function initExperienceTabs() {
+      const tabButtons = document.querySelectorAll('.exp-tab');
+      const indicator = document.getElementById('exp-indicator');
+      const panel = document.getElementById('exp-panel');
+      if (!tabButtons.length || !panel) return;
+
+      function renderExperience(index) {
+        const item = EXPERIENCES[index];
+        if (!item) return;
+
+        // Update tab styles & aria states
+        tabButtons.forEach((btn, idx) => {
+          const isActive = idx === index;
+          btn.setAttribute('aria-selected', String(isActive));
+          btn.classList.toggle('text-cyanAccent', isActive);
+          btn.classList.toggle('bg-navyLight/60', isActive);
+          btn.classList.toggle('border-cyanAccent', isActive);
+          btn.classList.toggle('text-slateMuted', !isActive);
+          btn.classList.toggle('border-transparent', !isActive);
+        });
+
+        // Slide desktop vertical bar (each tab button is 44px / h-11)
+        if (indicator) {
+          indicator.style.transform = `translateY(${index * 44}px)`;
+        }
+
+        const bulletsHtml = item.bullets
+          .map(
+            (b) => `
+              <li class="flex items-start gap-3 text-slateMuted text-sm sm:text-[1.02rem] leading-relaxed">
+                <span class="text-cyanAccent mt-1 text-xs shrink-0">▹</span>
+                <span>${b}</span>
+              </li>
+            `
+          )
+          .join('');
+
+        const badgeHtml = item.badge
+          ? `
+            <div class="mt-5">
+              <span class="inline-flex items-center px-3 py-1 rounded-full border border-cyanAccent/40 bg-cyanAccent/10 text-cyanAccent font-mono text-xs tracking-wide">
+                ${item.badge}
+              </span>
+            </div>
+          `
+          : '';
+
+        panel.innerHTML = `
+          <div class="tab-panel-animate">
+            <h3 class="font-display font-bold text-lg sm:text-xl text-slateLight leading-snug">
+              ${item.role} <span class="text-cyanAccent">${item.org}</span>
+            </h3>
+            <p class="mt-1 font-mono text-xs text-slateMuted tracking-wide uppercase">${item.date}</p>
+            <ul class="mt-5 space-y-3.5 max-w-2xl">
+              ${bulletsHtml}
+            </ul>
+            ${badgeHtml}
+          </div>
+        `;
+      }
+
+      tabButtons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const idx = Number(btn.dataset.tab || 0);
+          renderExperience(idx);
+        });
+      });
+
+      renderExperience(0);
+    })();
+
+    /* =======================================================================
+       7. SOFTWARE SPOTLIGHT CAROUSEL + 3-COLUMN PROJECT GRID
+       ======================================================================= */
+    (function initSoftwareSection() {
+      const visualEl = document.getElementById('carousel-visual');
+      const contentEl = document.getElementById('carousel-content');
+      const dotsEl = document.getElementById('carousel-dots');
+      const carouselWrap = document.getElementById('spotlight-carousel');
+      const prevBtn = document.getElementById('carousel-prev');
+      const nextBtn = document.getElementById('carousel-next');
+      const prevMobile = document.getElementById('carousel-prev-mobile');
+      const nextMobile = document.getElementById('carousel-next-mobile');
+      const gridEl = document.getElementById('projects-grid');
+
+      let currentSlide = 0;
+      let autoTimer = null;
+
+      function renderSlide(idx) {
+        currentSlide = (idx + FEATURED_PROJECTS.length) % FEATURED_PROJECTS.length;
+        const proj = FEATURED_PROJECTS[currentSlide];
+
+        if (visualEl) {
+          visualEl.innerHTML = proj.visualSvg;
+        }
+
+        if (contentEl) {
+          const tagsHtml = proj.stack
+            .map(
+              (t) =>
+                `<span class="font-mono text-[11px] px-2.5 py-1 rounded-md bg-navy/80 border border-navyLighter text-cyanAccent/90">${t}</span>`
+            )
+            .join('');
+
+          contentEl.innerHTML = `
+            <div class="tab-panel-animate">
+              <p class="font-mono text-xs tracking-widest text-cyanAccent mb-2.5">${proj.eyebrow}</p>
+              <h3 class="font-display font-bold text-2xl sm:text-3xl text-slateLight">${proj.title}</h3>
+              <p class="mt-3.5 text-sm sm:text-base text-slateMuted leading-relaxed">${proj.description}</p>
+              <div class="mt-5 flex flex-wrap gap-2">${tagsHtml}</div>
+              <div class="mt-6">
+                <a
+                  href="${proj.github}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-2 font-mono text-xs sm:text-sm text-cyanAccent hover:underline underline-offset-4"
+                >
+                  <span>Explore Repository</span>
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          `;
+        }
+
+        if (dotsEl) {
+          dotsEl.innerHTML = FEATURED_PROJECTS.map(
+            (_, i) => `
+              <button
+                type="button"
+                aria-label="Go to slide ${i + 1}"
+                data-slide="${i}"
+                class="h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                  i === currentSlide ? 'w-7 bg-cyanAccent' : 'w-2 bg-navyLighter hover:bg-slateMuted'
+                }"
+              ></button>
+            `
+          ).join('');
+
+          dotsEl.querySelectorAll('button').forEach((dot) => {
+            dot.addEventListener('click', () => {
+              renderSlide(Number(dot.dataset.slide));
+              resetAutoAdvance();
+            });
+          });
+        }
+      }
+
+      function resetAutoAdvance() {
+        clearInterval(autoTimer);
+        autoTimer = setInterval(() => renderSlide(currentSlide + 1), 6500);
+      }
+
+      if (prevBtn) prevBtn.addEventListener('click', () => { renderSlide(currentSlide - 1); resetAutoAdvance(); });
+      if (nextBtn) nextBtn.addEventListener('click', () => { renderSlide(currentSlide + 1); resetAutoAdvance(); });
+      if (prevMobile) prevMobile.addEventListener('click', () => { renderSlide(currentSlide - 1); resetAutoAdvance(); });
+      if (nextMobile) nextMobile.addEventListener('click', () => { renderSlide(currentSlide + 1); resetAutoAdvance(); });
+
+      if (carouselWrap) {
+        carouselWrap.addEventListener('mouseenter', () => clearInterval(autoTimer));
+        carouselWrap.addEventListener('mouseleave', resetAutoAdvance);
+      }
+
+      renderSlide(0);
+      resetAutoAdvance();
+
+      // Render 3-Column Project Card Grid (All 6 Projects)
+      if (gridEl) {
+        gridEl.innerHTML = ALL_PROJECTS.map(
+          (p) => `
+            <article class="project-card rounded-xl p-6 flex flex-col justify-between h-full group">
+              <div>
+                <div class="flex items-center justify-between mb-6">
+                  <!-- Classic Cyan Folder Icon -->
+                  <svg class="w-9 h-9 text-cyanAccent/90" fill="none" stroke="currentColor" stroke-width="1.4" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                  </svg>
+
+                  <!-- GitHub External Link -->
+                  <a
+                    href="${p.github}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="${p.title} GitHub Repository"
+                    class="text-slateMuted hover:text-cyanAccent transition-colors p-1"
+                  >
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22" />
+                    </svg>
+                  </a>
+                </div>
+
+                <h3 class="font-display font-bold text-lg text-slateLight group-hover:text-cyanAccent transition-colors">
+                  <a href="${p.github}" target="_blank" rel="noopener noreferrer">${p.title}</a>
+                </h3>
+
+                <p class="mt-2.5 text-sm text-slateMuted leading-relaxed">
+                  ${p.description}
+                </p>
+              </div>
+
+              <p class="mt-6 pt-4 border-t border-navyLighter/60 font-mono text-[11px] text-slateMuted/90 leading-relaxed">
+                ${p.stack}
+              </p>
+            </article>
+          `
+        ).join('');
+      }
+    })();
+
+    /* =======================================================================
+       8. PLAYABLE "GAME MODE" — PACKET RUNNER (60FPS CANVAS ARCADE)
+       ======================================================================= */
+    (function initPacketRunner() {
+      const openBtn = document.getElementById('open-game-btn');
+      const closeBtn = document.getElementById('close-game-btn');
+      const overlay = document.getElementById('game-overlay');
+      const stage = document.getElementById('game-stage');
+      const canvas = document.getElementById('game-canvas');
+      const menu = document.getElementById('game-menu');
+      const menuTitle = document.getElementById('game-menu-title');
+      const menuDesc = document.getElementById('game-menu-desc');
+      const startBtn = document.getElementById('game-start-btn');
+      const scoreEl = document.getElementById('game-score');
+      const bestEl = document.getElementById('game-best');
+
+      if (!overlay || !canvas || !stage) return;
+      const ctx = canvas.getContext('2d');
+
+      const BEST_KEY = 'tanya_packet_runner_best';
+      let bestScore = Number(localStorage.getItem(BEST_KEY) || 0);
+      if (bestEl) bestEl.textContent = String(bestScore);
+
+      let w = 640;
+      let h = 400;
+      let dpr = Math.min(window.devicePixelRatio || 1, 2);
+      let rafId = null;
+      let running = false;
+      let score = 0;
+      let elapsed = 0;
+      let lastTs = 0;
+
+      const keys = {};
+      let pointerTarget = null;
+
+      const player = { x: 100, y: 200, r: 11, speed: 320, trail: [] };
+      let hazards = [];
+      let nodes = [];
+      let particles = [];
+      let hazardTimer = 0;
+      let nodeTimer = 0;
+
+      function resizeGameCanvas() {
+        const rect = stage.getBoundingClientRect();
+        w = Math.max(rect.width || 640, 280);
+        h = Math.max(rect.height || 400, 260);
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.floor(w * dpr);
+        canvas.height = Math.floor(h * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      function resetGame() {
+        score = 0;
+        elapsed = 0;
+        hazardTimer = 0;
+        nodeTimer = 0.6;
+        hazards = [];
+        nodes = [];
+        particles = [];
+        player.x = Math.min(110, w * 0.22);
+        player.y = h * 0.5;
+        player.trail = [];
+        pointerTarget = null;
+        if (scoreEl) scoreEl.textContent = '0';
+      }
+
+      function spawnBurst(x, y, color, count) {
+        for (let i = 0; i < count; i++) {
+          const ang = Math.random() * Math.PI * 2;
+          const spd = 60 + Math.random() * 170;
+          particles.push({
+            x,
+            y,
+            vx: Math.cos(ang) * spd,
+            vy: Math.sin(ang) * spd,
+            life: 0.45 + Math.random() * 0.3,
+            maxLife: 0.75,
+            color
+          });
+        }
+      }
+
+      function startGame() {
+        resizeGameCanvas();
+        resetGame();
+        running = true;
+        menu.classList.add('hidden');
+        lastTs = performance.now();
+        cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(gameLoop);
+      }
+
+      function endGame() {
+        running = false;
+        spawnBurst(player.x, player.y, '#ff6b6b', 18);
+        if (score > bestScore) {
+          bestScore = score;
+          try {
+            localStorage.setItem(BEST_KEY, String(bestScore));
+          } catch (e) {}
+          if (bestEl) bestEl.textContent = String(bestScore);
+        }
+        menuTitle.textContent = 'CONNECTION LOST';
+        menuDesc.innerHTML = `Final Score: <span class="text-cyanAccent font-mono font-bold">${score}</span> · Best: <span class="text-slateLight font-mono font-bold">${bestScore}</span>`;
+        startBtn.textContent = 'Run Again';
+        menu.classList.remove('hidden');
+      }
+
+      function gameLoop(ts) {
+        const dt = Math.min(0.05, Math.max(0.001, (ts - lastTs) * 0.001));
+        lastTs = ts;
+
+        // Clear background with subtle cyber grid
+        ctx.fillStyle = '#071324';
+        ctx.fillRect(0, 0, w, h);
+
+        ctx.strokeStyle = 'rgba(35, 53, 84, 0.38)';
+        ctx.lineWidth = 1;
+        const gridStep = 36;
+        const scrollX = (elapsed * 75) % gridStep;
+        for (let gx = -scrollX; gx < w; gx += gridStep) {
+          ctx.beginPath();
+          ctx.moveTo(gx, 0);
+          ctx.lineTo(gx, h);
+          ctx.stroke();
+        }
+        for (let gy = 0; gy < h; gy += gridStep) {
+          ctx.beginPath();
+          ctx.moveTo(0, gy);
+          ctx.lineTo(w, gy);
+          ctx.stroke();
+        }
+
+        if (running) {
+          elapsed += dt;
+
+          // Keyboard movement
+          let mx = 0;
+          let my = 0;
+          if (keys['ArrowUp'] || keys['KeyW']) my -= 1;
+          if (keys['ArrowDown'] || keys['KeyS']) my += 1;
+          if (keys['ArrowLeft'] || keys['KeyA']) mx -= 1;
+          if (keys['ArrowRight'] || keys['KeyD']) mx += 1;
+
+          if (mx !== 0 || my !== 0) {
+            pointerTarget = null;
+            const len = Math.hypot(mx, my);
+            player.x += (mx / len) * player.speed * dt;
+            player.y += (my / len) * player.speed * dt;
+          } else if (pointerTarget) {
+            const dx = pointerTarget.x - player.x;
+            const dy = pointerTarget.y - player.y;
+            const d = Math.hypot(dx, dy);
+            if (d > 2) {
+              const step = Math.min(d, player.speed * 1.4 * dt);
+              player.x += (dx / d) * step;
+              player.y += (dy / d) * step;
+            }
+          }
+
+          // Clamp player inside stage
+          player.x = Math.max(player.r + 6, Math.min(w - player.r - 6, player.x));
+          player.y = Math.max(player.r + 6, Math.min(h - player.r - 6, player.y));
+
+          // Trail
+          player.trail.push({ x: player.x, y: player.y });
+          if (player.trail.length > 12) player.trail.shift();
+
+          // Spawn corrupted red packets (ramps gently with time)
+          const difficulty = 1 + Math.min(1.8, elapsed * 0.045);
+          hazardTimer -= dt;
+          if (hazardTimer <= 0) {
+            const size = 14 + Math.random() * 14;
+            hazards.push({
+              x: w + size,
+              y: size + Math.random() * (h - size * 2),
+              size,
+              vx: -(160 + Math.random() * 110) * difficulty,
+              vy: (Math.random() - 0.5) * 40
+            });
+            hazardTimer = Math.max(0.28, 0.78 / difficulty);
+          }
+
+          // Spawn collectible cyan nodes
+          nodeTimer -= dt;
+          if (nodeTimer <= 0) {
+            nodes.push({
+              x: w + 16,
+              y: 26 + Math.random() * (h - 52),
+              r: 8,
+              vx: -(125 + Math.random() * 55)
+            });
+            nodeTimer = 1.15 + Math.random() * 0.65;
+          }
+
+          // Update & check nodes
+          for (let i = nodes.length - 1; i >= 0; i--) {
+            const n = nodes[i];
+            n.x += n.vx * dt;
+            if (Math.hypot(player.x - n.x, player.y - n.y) < player.r + n.r + 3) {
+              score += 10;
+              if (scoreEl) scoreEl.textContent = String(score);
+              spawnBurst(n.x, n.y, '#64ffda', 10);
+              nodes.splice(i, 1);
+              continue;
+            }
+            if (n.x < -30) nodes.splice(i, 1);
+          }
+
+          // Update & check hazards
+          for (let i = hazards.length - 1; i >= 0; i--) {
+            const hz = hazards[i];
+            hz.x += hz.vx * dt;
+            hz.y += hz.vy * dt;
+            if (hz.y < hz.size || hz.y > h - hz.size) hz.vy *= -1;
+
+            const closestX = Math.max(hz.x - hz.size / 2, Math.min(player.x, hz.x + hz.size / 2));
+            const closestY = Math.max(hz.y - hz.size / 2, Math.min(player.y, hz.y + hz.size / 2));
+            if (Math.hypot(player.x - closestX, player.y - closestY) < player.r - 1) {
+              endGame();
+              break;
+            }
+            if (hz.x < -40) {
+              score += 1;
+              if (scoreEl) scoreEl.textContent = String(score);
+              hazards.splice(i, 1);
+            }
+          }
+        }
+
+        // Draw cyan collectible nodes (diamonds)
+        nodes.forEach((n) => {
+          ctx.save();
+          ctx.translate(n.x, n.y);
+          ctx.rotate(Math.PI / 4);
+          ctx.fillStyle = '#64ffda';
+          ctx.shadowColor = '#64ffda';
+          ctx.shadowBlur = 12;
+          ctx.fillRect(-n.r * 0.75, -n.r * 0.75, n.r * 1.5, n.r * 1.5);
+          ctx.restore();
+        });
+
+        // Draw red corrupted hazards
+        hazards.forEach((hz) => {
+          ctx.save();
+          ctx.fillStyle = '#ff6b6b';
+          ctx.shadowColor = 'rgba(255, 107, 107, 0.7)';
+          ctx.shadowBlur = 10;
+          ctx.fillRect(hz.x - hz.size / 2, hz.y - hz.size / 2, hz.size, hz.size);
+          ctx.restore();
+        });
+
+        // Draw player trail & cyan packet
+        for (let i = 0; i < player.trail.length; i++) {
+          const pt = player.trail[i];
+          const a = ((i + 1) / player.trail.length) * 0.35;
+          ctx.fillStyle = `rgba(100, 255, 218, ${a.toFixed(2)})`;
+          ctx.beginPath();
+          ctx.arc(pt.x, pt.y, player.r * ((i + 1) / player.trail.length) * 0.8, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.save();
+        ctx.fillStyle = '#64ffda';
+        ctx.shadowColor = '#64ffda';
+        ctx.shadowBlur = 16;
+        ctx.beginPath();
+        ctx.arc(player.x, player.y, player.r, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+
+        // Update & draw particles
+        for (let i = particles.length - 1; i >= 0; i--) {
+          const p = particles[i];
+          p.x += p.vx * dt;
+          p.y += p.vy * dt;
+          p.life -= dt;
+          if (p.life <= 0) {
+            particles.splice(i, 1);
+            continue;
+          }
+          ctx.globalAlpha = Math.max(0, p.life / p.maxLife);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(p.x - 2, p.y - 2, 4, 4);
+          ctx.globalAlpha = 1;
+        }
+
+        if (running || particles.length > 0) {
+          rafId = requestAnimationFrame(gameLoop);
+        }
+      }
+
+      function openGame() {
+        overlay.classList.remove('hidden');
+        overlay.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+        resizeGameCanvas();
+        menuTitle.textContent = 'PACKET RUNNER';
+        menuDesc.innerHTML =
+          'Steer your cyan data packet with <span class="text-slateLight font-mono">Arrow Keys / WASD</span> or <span class="text-slateLight font-mono">Mouse / Touch</span>. Dodge red corrupted packets and collect glowing cyan nodes.';
+        startBtn.textContent = 'Start Run';
+        menu.classList.remove('hidden');
+      }
+
+      function closeGame() {
+        running = false;
+        cancelAnimationFrame(rafId);
+        overlay.classList.add('hidden');
+        overlay.classList.remove('flex');
+        document.body.style.overflow = '';
+      }
+
+      function setPointerFromEvent(clientX, clientY) {
+        const rect = canvas.getBoundingClientRect();
+        pointerTarget = { x: clientX - rect.left, y: clientY - rect.top };
+      }
+
+      if (openBtn) openBtn.addEventListener('click', openGame);
+      if (closeBtn) closeBtn.addEventListener('click', closeGame);
+      if (startBtn) startBtn.addEventListener('click', startGame);
+
+      window.addEventListener('keydown', (e) => {
+        keys[e.code] = true;
+        if (e.key === 'Escape' && !overlay.classList.contains('hidden')) {
+          closeGame();
+        }
+      });
+      window.addEventListener('keyup', (e) => {
+        keys[e.code] = false;
+      });
+      window.addEventListener('resize', () => {
+        if (!overlay.classList.contains('hidden')) resizeGameCanvas();
+      });
+
+      canvas.addEventListener('mousemove', (e) => {
+        if (running) setPointerFromEvent(e.clientX, e.clientY);
+      });
+      canvas.addEventListener(
+        'touchstart',
+        (e) => {
+          if (running && e.touches[0]) setPointerFromEvent(e.touches[0].clientX, e.touches[0].clientY);
+        },
+        { passive: true }
+      );
+      canvas.addEventListener(
+        'touchmove',
+        (e) => {
+          if (running && e.touches[0]) setPointerFromEvent(e.touches[0].clientX, e.touches[0].clientY);
+        },
+        { passive: true }
+      );
+    })();
+  </script>
+</body>
+</html>
